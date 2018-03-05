@@ -3,11 +3,12 @@
 package omxplayer
 
 import (
-	log "github.com/Sirupsen/logrus"
-	"github.com/guelfey/go.dbus"
 	"os"
 	"os/exec"
 	"strings"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/guelfey/go.dbus"
 )
 
 const (
@@ -47,10 +48,10 @@ func SetUser(u, h string) {
 
 // New returns a new Player instance that can be used to control an OMXPlayer
 // instance that is playing the video located at the specified URL.
-func New(url string) (player *Player, err error) {
+func New(url string, arguments []string) (player *Player, err error) {
 	removeDbusFiles()
 
-	cmd, err := execOmxplayer(url)
+	cmd, err := execOmxplayer(url, arguments)
 	if err != nil {
 		return
 	}
@@ -152,10 +153,10 @@ func setupDbusEnvironment() (err error) {
 
 // execOmxplayer starts a new OMXPlayer process and tells it to pause the video
 // by passing a "p" on standard input.
-func execOmxplayer(url string) (cmd *exec.Cmd, err error) {
+func execOmxplayer(url string, arguments []string) (cmd *exec.Cmd, err error) {
 	log.Debug("omxplayer: starting omxplayer process")
-
-	cmd = exec.Command(exeOxmPlayer, "--no-osd", url)
+	arguments = append(arguments, "--no-osd", url)
+	cmd = exec.Command(exeOxmPlayer, arguments...)
 	cmd.Stdin = strings.NewReader(keyPause)
 	err = cmd.Start()
 	return

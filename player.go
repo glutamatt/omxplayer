@@ -1,12 +1,13 @@
 package omxplayer
 
 import (
-	log "github.com/Sirupsen/logrus"
-	"github.com/guelfey/go.dbus"
 	"os"
 	"os/exec"
 	"syscall"
 	"time"
+
+	log "github.com/Sirupsen/logrus"
+	"github.com/guelfey/go.dbus"
 )
 
 const (
@@ -90,7 +91,7 @@ func (p *Player) IsReady() bool {
 	}
 
 	verdict, err := p.CanQuit()
-	if err==nil && verdict {
+	if err == nil && verdict {
 		p.ready = true
 	}
 	return p.ready
@@ -177,7 +178,7 @@ func (p *Player) CanGoPrevious() (bool, error) {
 // CanSeek returns true if the player can seek, false otherwise. See
 // https://github.com/popcornmix/omxplayer#canseek for more details.
 func (p *Player) CanSeek() (bool, error) {
-	return dbusGetBool(p.bus, cmdSeek)
+	return dbusGetBool(p.bus, propCanSeek)
 }
 
 // CanControl returns true if the player can be controlled, false otherwise. See
