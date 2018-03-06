@@ -82,6 +82,11 @@ func (p *Player) IsRunning() bool {
 	return err != nil
 }
 
+// Wait the end of the process
+func (p *Player) Wait() error {
+	return p.command.Wait()
+}
+
 // IsReady checks to see if the Player instance is ready to accept D-Bus
 // commands. If the player is ready and can accept commands, the function
 // returns true, otherwise it returns false.
