@@ -63,6 +63,9 @@ func New(url string, arguments []string) (player *Player, err error) {
 
 	conn, err := getDbusConnection()
 	if err != nil {
+		if conn != nil {
+			go conn.Close()
+		}
 		return
 	}
 
