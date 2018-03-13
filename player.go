@@ -113,7 +113,6 @@ func (p *Player) WaitForReady() {
 // Quit stops the currently playing video and terminates the omxplayer process.
 // See https://github.com/popcornmix/omxplayer#quit for more details.
 func (p *Player) Quit() error {
-	defer p.connection.Close()
 	return dbusCall(p.bus, cmdQuit)
 }
 
